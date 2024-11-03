@@ -35,7 +35,7 @@
 // }
 
 // export default App;
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -43,12 +43,26 @@ import Services from "./pages/Services";
 import Portfolio from "./pages/Portfolio";
 import Reviews from "./pages/Reviews";
 import "./styles.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faScissors } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
+		const [isMenuOpen, setIsMenuOpen] = useState(false);
+	
+		const toggleMenu = () => {
+			setIsMenuOpen(!isMenuOpen);
+		};
+
   return (
     <Router>
-      <header>
-        <nav>
+      <header className="header">
+			<nav className={`nav-menu ${isMenuOpen ? "open" : ""}`}>
+			<h2 className="logo">
+        <FontAwesomeIcon icon={faScissors} /> 
+      </h2>
+				<button className="burger-menu" onClick={toggleMenu}>
+          ☰
+        </button>
           <Link to="/">Главная</Link>
           <Link to="/about">Обо мне</Link>
           <Link to="/services">Услуги</Link>
@@ -70,3 +84,27 @@ function App() {
 }
 
 export default App;
+
+
+//   return (
+//     <div className="App">
+      
+  
+//         <h1>Your Personal Hair Stylist</h1>
+//       </header>
+//       <nav className={`nav-menu ${isMenuOpen ? "open" : ""}`}>
+//         <ul>
+//           <li><a href="#home" onClick={toggleMenu}>Home</a></li>
+//           <li><a href="#portfolio" onClick={toggleMenu}>Portfolio</a></li>
+//           <li><a href="#reviews" onClick={toggleMenu}>Reviews</a></li>
+//           <li><a href="#contact" onClick={toggleMenu}>Contact</a></li>
+//         </ul>
+//       </nav>
+//       <Home />
+//       <Portfolio />
+//       <Reviews />
+//     </div>
+//   );
+// }
+
+// export default App;

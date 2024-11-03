@@ -3,7 +3,7 @@
 	flex-direction: column;
 	align-items:flex-start;
 	text-align: left;
-	padding: 50px 50px 50px 20px;
+	padding: 40px;
 	/* background: linear-gradient(135deg, #f5a623, #f76b1c); */
 	background-image: url('../assets/bg.jpeg');
 	background-size: cover;
@@ -16,6 +16,9 @@
 @media (max-width: 767px) {
 	.home {
 			min-height: 88vh; /* Установка минимальной высоты в 100% высоты вьюпорта */
+	}
+	.book-button {
+		width: 90%;
 	}
 }
 
