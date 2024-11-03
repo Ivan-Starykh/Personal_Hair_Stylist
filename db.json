@@ -1,0 +1,6 @@
+{
+  "appointments": [
+    { "id": 1, "name": "Alice", "date": "2024-10-30", "service": "Haircut" },
+    { "id": 2, "name": "Bob", "date": "2024-11-05", "service": "Coloring" }
+  ]
+}
