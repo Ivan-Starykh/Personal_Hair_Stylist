@@ -1,110 +1,107 @@
-
-// import React, { useState } from "react";
-// import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-// import Home from "./pages/Home";
-// import About from "./pages/About";
-// import Services from "./pages/Services";
-// import Portfolio from "./pages/Portfolio";
-// import Reviews from "./pages/Reviews";
-// import SignUp from "./components/SignUp";
-// import Login from "./components/Login";
-// import Dashboard from "./pages/Dashboard";
-// import Navbar from "./components/Navbar";
-// import "./styles.css";
-
-// function App() {
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-//   return (
-//     <Router>
-//       <Navbar isAuthenticated={isAuthenticated} />
-//       <main>
-//         <Routes>
-//           <Route path="/" element={<Home />} />
-//           <Route path="/about" element={<About />} />
-//           <Route path="/services" element={<Services />} />
-//           <Route path="/portfolio" element={<Portfolio />} />
-//           <Route path="/reviews" element={<Reviews />} />
-//           <Route path="/signup" element={<SignUp onSignUp={() => setIsAuthenticated(true)} />} />
-//           <Route path="/login" element={<Login onLogin={() => setIsAuthenticated(true)} />} />
-//           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
-//         </Routes>
-//       </main>
-//     </Router>
-//   );
-// }
-
-// export default App;
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Portfolio from "./pages/Portfolio";
 import Reviews from "./pages/Reviews";
+import Modal from "./components/Modal"; // Импортируем модальное окно
+import BookingForm from "./components/BookingForm"; // Форма записи
+import ConfirmationModal from "./components/ConfirmationModal"; // Импортируем окно подтверждения
+import Contact from "./pages/Contact";
 import "./styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faScissors } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
-		const [isMenuOpen, setIsMenuOpen] = useState(false);
-	
-		const toggleMenu = () => {
-			setIsMenuOpen(!isMenuOpen);
-		};
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null); // Создаем реф для меню
+	const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для модального окна
+	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false); // Состояние для окна подтверждения
+  const [appointmentDetails, setAppointmentDetails] = useState(null); // Детали записи
+
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  // Закрытие меню при клике вне его области
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        closeMenu();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+	const handleFormSubmit = (details) => {
+    setAppointmentDetails(details);
+    setIsModalOpen(false);
+    setIsConfirmationOpen(true);
+  };
+
+  const handleConfirm = () => {
+    // Здесь вы можете отправить данные на сервер или выполнить другие действия
+    setIsConfirmationOpen(false);
+    alert("Запись подтверждена!");
+  };
+
+  const handleCancelConfirmation = () => {
+    setIsConfirmationOpen(false);
+  };
 
   return (
     <Router>
       <header className="header">
-			<nav className={`nav-menu ${isMenuOpen ? "open" : ""}`}>
-			<h2 className="logo">
-        <FontAwesomeIcon icon={faScissors} /> 
-      </h2>
-				<button className="burger-menu" onClick={toggleMenu}>
+        <h2 className="logo">
+          <FontAwesomeIcon icon={faScissors} />
+        </h2>
+        <button className="burger-menu" onClick={toggleMenu}>
           ☰
         </button>
-          <Link to="/">Главная</Link>
-          <Link to="/about">Обо мне</Link>
-          <Link to="/services">Услуги</Link>
-          <Link to="/portfolio">Портфолио</Link>
-          <Link to="/reviews">Отзывы</Link>
+        <nav ref={menuRef} className={`nav-menu ${isMenuOpen ? "open" : ""}`}>
+          <Link to="/" onClick={closeMenu}>Главная</Link>
+          <Link to="/about" onClick={closeMenu}>Обо мне</Link>
+          <Link to="/services" onClick={closeMenu}>Услуги</Link>
+          <Link to="/portfolio" onClick={closeMenu}>Портфолио</Link>
+          <Link to="/reviews" onClick={closeMenu}>Отзывы</Link>
+					<Link to="/contact" onClick={closeMenu}>Контакты</Link>
         </nav>
       </header>
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+				<Route path="/" element={<Home onBookAppointment={() => setIsModalOpen(true)} />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/reviews" element={<Reviews />} />
+					<Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
+
+			{/* Модальное окно */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <BookingForm onSubmit={handleFormSubmit} />
+      </Modal>
+
+			{/* Модальное окно подтверждения */}
+      <ConfirmationModal
+        isOpen={isConfirmationOpen}
+        details={appointmentDetails}
+        onConfirm={handleConfirm}
+        onCancel={handleCancelConfirmation}
+      />
     </Router>
   );
 }
 
 export default App;
-
-
-//   return (
-//     <div className="App">
-      
-  
-//         <h1>Your Personal Hair Stylist</h1>
-//       </header>
-//       <nav className={`nav-menu ${isMenuOpen ? "open" : ""}`}>
-//         <ul>
-//           <li><a href="#home" onClick={toggleMenu}>Home</a></li>
-//           <li><a href="#portfolio" onClick={toggleMenu}>Portfolio</a></li>
-//           <li><a href="#reviews" onClick={toggleMenu}>Reviews</a></li>
-//           <li><a href="#contact" onClick={toggleMenu}>Contact</a></li>
-//         </ul>
-//       </nav>
-//       <Home />
-//       <Portfolio />
-//       <Reviews />
-//     </div>
-//   );
-// }
-
-// export default App;

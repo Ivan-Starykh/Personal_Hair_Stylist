@@ -1,10 +1,12 @@
 import React from "react";
 import "./ConfirmationModal.css";
 
-function ConfirmationModal({ details, onConfirm, onCancel }) {
+function ConfirmationModal({ isOpen, details, onConfirm, onCancel }) {
+  if (!isOpen || !details) return null;
+
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={onCancel}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h3>Подтверждение записи</h3>
         <p><strong>Имя:</strong> {details.name}</p>
         <p><strong>Телефон:</strong> {details.phone}</p>

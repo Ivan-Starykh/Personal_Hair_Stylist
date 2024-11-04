@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faScissors, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 
-function Home() {
+function Home({ onBookAppointment }) {
   // Управляем состоянием отображения формы и модального окна
   const [showForm, setShowForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +40,8 @@ function Home() {
         <FontAwesomeIcon icon={faScissors} /> Welcome to Your Personal Hair Stylist
       </h1>
       <p>Professional haircuts and coloring just for you.</p>
-      <button className="book-button" onClick={() => setShowForm(true)}>
+      {/* <button className="book-button" onClick={() => setShowForm(true)}> */}
+			<button className="book-button" onClick={onBookAppointment}>
 			<FontAwesomeIcon icon={faCalendarAlt} style={{ marginRight: '8px' }} />Записаться на прием
       </button>
 
