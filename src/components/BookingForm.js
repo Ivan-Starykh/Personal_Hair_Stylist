@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import "./BookingForm.css";
 
-function BookingForm({ onSubmit }) {
+function BookingForm({ selectedService, onSubmit }) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    service: "Выбрать что делаем", // Устанавливаем "Стрижка" как значение по умолчанию
+    service: selectedService || "Выберите что делать", // если `selectedService` передан, используем его
     date: "",
     time: ""
   });
 
   const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const options = ["Стрижка", "Окрашивание", "Укладка", "Иное"];
+  const options = ["Стрижка", "Окрашивание", "Укладка", "Уход за волосами"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +53,7 @@ function BookingForm({ onSubmit }) {
   return (
     <div className="booking-form-container">
       <form className="booking-form" onSubmit={handleSubmit}>
-        <h2>Запись на прием</h2>
+        <h2>Запись на услугу: {selectedService}</h2>
 
         <label htmlFor="name">Имя</label>
         <input type="text" name="name" value={formData.name} onChange={handleChange} required />
@@ -78,7 +78,7 @@ function BookingForm({ onSubmit }) {
         <label>Время:</label>
         <input type="time" name="time" value={formData.time} onChange={handleChange} required />
 
-        <label>Услуга:</label>
+        {/* <label>Услуга:</label>
         <div
           className={`custom-select ${isSelectOpen ? "open" : ""}`}
           onClick={() => setIsSelectOpen(!isSelectOpen)}
@@ -98,9 +98,42 @@ function BookingForm({ onSubmit }) {
               ))}
             </ul>
           )}
-        </div>
+        </div> */}
+				<label>Услуга:</label>
+<div
+  className={`custom-select ${isSelectOpen ? "open" : ""}`}
+  onClick={() => {
+    // Выпадающий список открывается только если selectedService не задан
+    if (!selectedService) {
+      setIsSelectOpen(!isSelectOpen);
+    }
+  }}
+>
+  {/* Если есть selectedService, показываем его как текст, иначе отображаем выбранную опцию */}
+  <div className="selected-option">{selectedService || formData.service}</div>
 
-        <button type="submit" className="submit-button">Записаться</button>
+  {/* Отображаем стрелку только если selectedService отсутствует */}
+  {!selectedService && <span className={`select-arrow ${isSelectOpen ? "open" : ""}`} />}
+
+  {/* Если список открыт и selectedService не задан, показываем выпадающий список */}
+  {isSelectOpen && !selectedService && (
+    <ul className="options-list">
+      {options.map((option, index) => (
+        <li
+          key={index}
+          className="option-item"
+          onClick={() => handleOptionClick(option)}
+        >
+          {option}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
+
+        <button type="submit" className="submit-button">Подтвердить запись</button>
+				{/* <button type="button" onClick={onClose}>Отмена</button> */}
       </form>
     </div>
   );
