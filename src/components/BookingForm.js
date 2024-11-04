@@ -5,7 +5,7 @@ function BookingForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    service: "Стрижка", // Устанавливаем "Стрижка" как значение по умолчанию
+    service: "Выбрать что делаем", // Устанавливаем "Стрижка" как значение по умолчанию
     date: "",
     time: ""
   });

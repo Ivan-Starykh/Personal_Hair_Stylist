@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import "./Services.css";
-import BookingForm from "../components/BookingForm"; 
+import Modal from "../components/Modal"; // Модальное окно
+import BookingForm from "../components/BookingForm"; // Форма записи
+import ConfirmationModal from "../components/ConfirmationModal"; // Модальное окно подтверждения
 
 function Services() {
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Для формы записи
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false); // Для окна подтверждения
   const [selectedService, setSelectedService] = useState("");
+  const [appointmentDetails, setAppointmentDetails] = useState(null); // Детали записи
 
   const servicesList = [
     { name: "Стрижка", description: "Современные и классические стрижки на любой вкус." },
@@ -16,13 +20,24 @@ function Services() {
   // Открытие модального окна и установка выбранной услуги
   const handleBookClick = (serviceName) => {
     setSelectedService(serviceName);
-    setIsBookingModalOpen(true);
+    setIsModalOpen(true);
   };
 
-  // Закрытие модального окна
-  const closeBookingModal = () => {
-    setIsBookingModalOpen(false);
-    setSelectedService("");
+  // Обработка формы и открытие окна подтверждения
+  const handleFormSubmit = (details) => {
+    setAppointmentDetails(details);
+    setIsModalOpen(false);
+    setIsConfirmationOpen(true);
+  };
+
+  const handleConfirm = () => {
+    // Здесь можно отправить данные на сервер или выполнить другие действия
+    setIsConfirmationOpen(false);
+    alert("Запись подтверждена!");
+  };
+
+  const handleCancelConfirmation = () => {
+    setIsConfirmationOpen(false);
   };
 
   return (
@@ -39,12 +54,24 @@ function Services() {
       </div>
 
       {/* Модальное окно для формы записи */}
-      {isBookingModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <BookingForm selectedService={selectedService} onClose={closeBookingModal} />
-          </div>
-        </div>
+      {isModalOpen && (
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <BookingForm
+            selectedService={selectedService}
+            onSubmit={handleFormSubmit}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </Modal>
+      )}
+
+      {/* Модальное окно подтверждения */}
+      {isConfirmationOpen && (
+        <ConfirmationModal
+          isOpen={isConfirmationOpen}
+          details={appointmentDetails}
+          onConfirm={handleConfirm}
+          onCancel={handleCancelConfirmation}
+        />
       )}
     </section>
   );
