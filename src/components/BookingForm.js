@@ -78,27 +78,6 @@ function BookingForm({ selectedService, onSubmit }) {
         <label>Время:</label>
         <input type="time" name="time" value={formData.time} onChange={handleChange} required />
 
-        {/* <label>Услуга:</label>
-        <div
-          className={`custom-select ${isSelectOpen ? "open" : ""}`}
-          onClick={() => setIsSelectOpen(!isSelectOpen)}
-        >
-          <div className="selected-option">{formData.service}</div>
-          <span className={`select-arrow ${isSelectOpen ? "open" : ""}`} />
-          {isSelectOpen && (
-            <ul className="options-list">
-              {options.map((option, index) => (
-                <li
-                  key={index}
-                  className="option-item"
-                  onClick={() => handleOptionClick(option)}
-                >
-                  {option}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div> */}
 				<label>Услуга:</label>
 <div
   className={`custom-select ${isSelectOpen ? "open" : ""}`}
