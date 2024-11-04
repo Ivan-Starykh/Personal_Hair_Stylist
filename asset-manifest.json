@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/css/main.fd7d586b.css",
+    "main.js": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/js/main.3eac0469.js",
+    "static/media/bg.jpeg": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/media/bg.4d46f36e9f0ff0456e4b.jpeg",
+    "static/media/work2.jpg": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/media/work2.03da952ab3c6542b0256.jpg",
+    "static/media/work1.jpg": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/media/work1.ac14aec2e6df4565639f.jpg",
+    "static/media/work3.jpg": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/media/work3.ef2b37810504dd354ac8.jpg",
+    "static/media/profile.jpg": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/media/profile.6b49ff56dd7f1e8bed9e.jpg",
+    "index.html": "/Ivan-Starykh/Personal_Hair_Stylist.git/index.html",
+    "main.fd7d586b.css.map": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/css/main.fd7d586b.css.map",
+    "main.3eac0469.js.map": "/Ivan-Starykh/Personal_Hair_Stylist.git/static/js/main.3eac0469.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fd7d586b.css",
+    "static/js/main.3eac0469.js"
+  ]
+}
